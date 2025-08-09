@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    image: digitalkeyhub_app:latest
+    environment:
+      logging.logstash.enabled: "true"
+      logging.logstash.host: logstash
+      logging.logstash.port: "5000"
+      logging.logstash.encoding: UTF-8
+      logging.pattern.console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    depends_on:
+      - logstash
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.10
+    ports:
+      - "5000:5000"
